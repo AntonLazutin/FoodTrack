@@ -1,15 +1,37 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content%}
+
     <h2>{{user.username}}</h2>
-    <div class='card' style="width: 23rem;">
-        <div class="card-header" style="display: flex; gap: 7rem;">
-            <p class="card-text">Информация о пользователе<p>
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <div class='card' style="display: inherit; flex-direction: column; justify-content: space-between; width: 23rem;">
+            <div>
+                <div class="card-header" style="display: flex; gap: 7rem;">
+                    <p class="card-text">Информация о пользователе<p>
+                </div>
+                <p class="card-text">Возраст: {{user.age}}</p>
+                <p class="card-text">Пол: {{user.age}}</p>
+                <p class="card-text">Рост: {{user.height}}</p>
+                <p class="card-text">Вес: {{user.weight}}</p>
+                <p class="card-text">Цель: {{user.get_goal_display}}</p>
+            </div>
+            <a class="btn btn-primary" href={% url 'user_update' user.id %}>Обновить данные</a>
         </div>
-        <p class="card-text">Возраст: {{user.age}}</p>
-        <p class="card-text">Пол: {{user.age}}</p>
-        <p class="card-text">Рост: {{user.height}}</p>
-        <p class="card-text">Вес: {{user.weight}}</p>
-        <p class="card-text">Цель: {{user.get_goal_display}}</p>
+        <div>
+            <canvas id="myChart" width="700" height="600"></canvas>
+    
+            <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+            <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+            <script type="text/javascript">
+                $.get('{% url "line_chart_json" %}', function(data) {
+                    var ctx = $("#myChart").get(0).getContext("2d");
+                    new Chart(ctx, {
+                        type: 'line', data: data
+                    });
+                });
+            </script>
+        </div>
     </div>
+   
 {% endblock %}

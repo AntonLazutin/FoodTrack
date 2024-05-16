@@ -2,7 +2,6 @@ from django import forms
 from .models import CustomUser
 from django.contrib.auth.forms import UserCreationForm
 
-
 class UserRegisterForm(UserCreationForm):
   email = forms.EmailField()
   age = forms.IntegerField(label='Возраст')
@@ -12,5 +11,11 @@ class UserRegisterForm(UserCreationForm):
   goal = forms.ChoiceField(widget=forms.RadioSelect, choices=CustomUser.Goal.choices, label="Цель")
 
   class Meta:
+      model = CustomUser
+      fields = ['username', 'email', 'first_name', 'weight', 'height', 'age', 'gender', 'goal']
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
       model = CustomUser
       fields = ['username', 'email', 'first_name', 'weight', 'height', 'age', 'gender', 'goal']

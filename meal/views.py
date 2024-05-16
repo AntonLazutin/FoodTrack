@@ -23,11 +23,13 @@ class MealViewList(LoginRequiredMixin, ListView):
     model = Meal
 
     def calc_percent(self, calories_total):
-        return (calories_total * 100) / self.request.user.calorie_dose
+        if self.request.user.calorie_dose:
+            return (calories_total * 100) / self.request.user.calorie_dose
+        else:
+            return 0
     
     def get_date(self):
         _date = date.today()
-        print(timezone.now())
         if self.request.GET.get("date"):
             _date = self.request.GET.get("date")
         return _date
@@ -71,37 +73,6 @@ class MealUpdateView(LoginRequiredMixin, UpdateView):
         meal.count_cals()
         return res
     
-# class MealUpdateCreateView(LoginRequiredMixin, ProcessFormView):
-#     login_url = '/'
-#     template_name = 'meal_update.html'
-#     success_url = reverse_lazy('meal_log')
-
-#     def get_context_data(self, **kwargs) -> dict[str, Any]:
-#         context = super().get_context_data(**kwargs)
-#         context["form1"] = MealUpdateForm()
-#         context["form2"] = MealFoodForm()
-#         return context
-    
-    
-#     def post(self, request, *args, **kwargs):
-#         """
-#         Overrided post method in order to render and process two forms
-#         """
-#         if request.POST["form_check"] == 'form1':
-#             form1 = MealUpdateForm(request.POST)
-#             form2 = MealFoodForm()
-#             if form1.is_valid():
-#                 return self.form_valid(form1)
-#             else:
-#                 return self.form_invalid(form1)
-#         elif request.POST["form_check"] == "form2":
-#             form1 = MealUpdateForm()
-#             form2 = MealFoodForm(request.POST)
-#             if form2.is_valid():
-#                 return self.form_valid(form2)
-#             else:
-#                 return self.form_invalid(form2)
-
 
 class MealFoodAdd(LoginRequiredMixin, CreateView):
     login_url = '/'
@@ -136,13 +107,3 @@ class MealFoodUnlink(View):
             print(e)
         
         return HttpResponseRedirect(reverse_lazy('meal_log'))
-
-
-
-# TODO:
-# 1. Полная рабочая система добавления MealFood, обновления, удаления DONE
-# 2. То же самое для Food DONE
-# 3. Статистика
-# 4. Личный кабинет
-# 5. Если успею список друзей
-# 6. Нормальные темплейты

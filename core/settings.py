@@ -41,9 +41,9 @@ INSTALLED_APPS = [
     'food',
     'meal',
     'user',
-    'chart'
     #packages
     "django_bootstrap5",
+    'chartjs',
 ]
 
 MIDDLEWARE = [
