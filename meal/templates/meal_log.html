@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+    <h2>Приемы пищи за {{ date }}</h2>
+    <form method="GET" action="{% url 'meal_log' %}" >
+        <p>Выбрать другую дату</p>
+        <input type="date" name="date" value="{{date}}"
+        class="form-control dateinput form-control w-25" 
+        placeholder="Select a date" required="" id="id_date"></br>
+        <input type="submit" value="Найти">
+    </form>
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        {% if meal_list %}
+            <div style="display: inherit; flex-direction: column;gap: 5rem;">
+                {% for meal in meal_list %}
+            
+                <div class='card' style="width: 20rem;">
+                    <div class="card-header">
+                        <h5 class="card-title">{{meal.name}}: {{meal.date}}</h5>
+                    </div>
+                    {% for meal_food in  meal.meal_food_ids.all%}
+                        <p class="card-text">{{meal_food.food_id.name}}<p>
+                        <p class="card-text">{{meal_food.weight}} g.</p>
+                    {% endfor %}
+                    <p class="card-text">Потреблено калорий: {{meal.calorie_sum}}</p>
+                    <a class="btn btn-primary" href="{% url 'meal_detail' meal.id%}">Подробнее</a>
+                </div>
+
+                {% endfor %}
+            </div>
+            <div>
+                <h5>Общее количество калорий за день: {{calories_total}}/{{user.calorie_dose}}</h5>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ percentage }}%"></div>
+                </div></br>
+                {% if percentage > 100 %}
+                    <h5>Цель достигнута!</h5>
+                {% endif %}
+            </div>
+        {% else %}
+            <h2>За указанную дату приемы пищи отстуствуют!</h2>
+        {% endif %}
+    <div>
+ 
+
+{% endblock content %}

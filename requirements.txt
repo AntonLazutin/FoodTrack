@@ -1,0 +1,7 @@
+asgiref==3.8.1
+Django==5.0.4
+django-bootstrap5==24.2
+django-chartjs==2.3.0
+pysqlite3-binary==0.5.2.post3
+sqlparse==0.5.0
+typing_extensions==4.11.0

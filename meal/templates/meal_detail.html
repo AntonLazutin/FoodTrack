@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+
+    <div style="display: inherit; flex-direction: column;gap: 5rem;">
+        <h5>{{meal.name}}</h5>
+        {% if meal.meal_food_ids.all %}
+            {% for meal_food in  meal.meal_food_ids.all%}
+
+            <div class='card' style="width: 20rem;">
+                <div class="card-header" style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <p class="card-text">{{meal_food.food_id.name}}<p>
+                    <form method="POST" action="{% url 'meal_food_unlink' meal.id meal_food.id %}" >
+                        {% csrf_token %}<input type="submit" value="X">
+                     </form>
+                </div>
+                <p class="card-text">{{meal_food.weight}} г.</p>
+                <p>Потреблено калорий: {{meal.calorie_sum}}</p>
+            </div>
+
+            {% endfor %}
+            {% else %}
+            <div class='card' style="width: 20rem;">
+                <div class="card-header">
+                    <p class="card-text">Пусто!<p>
+                </div>
+            </div>
+        {% endif %}
+        <a class="btn btn-primary" href="{% url 'meal_update' meal.id%}">Обновить данные</a>
+
+        
+      
+    </div>
+{% endblock content %}

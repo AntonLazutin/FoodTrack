@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content%}
+
+    <form  method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        {% bootstrap_button button_type="submit" content="Войти" %}
+    </form>
+    <h5>Нету аккаунта?</h5>
+    <a class="btn btn-primary" href={% url 'signup' %}>Зарегестрироваться сейчас!</a>
+
+{% endblock content %}

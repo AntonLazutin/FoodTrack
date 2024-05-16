@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content%}
+    <h2>{{user.username}}</h2>
+    <div class='card' style="width: 23rem;">
+        <div class="card-header" style="display: flex; gap: 7rem;">
+            <p class="card-text">Информация о пользователе<p>
+        </div>
+        <p class="card-text">Возраст: {{user.age}}</p>
+        <p class="card-text">Пол: {{user.age}}</p>
+        <p class="card-text">Рост: {{user.height}}</p>
+        <p class="card-text">Вес: {{user.weight}}</p>
+        <p class="card-text">Цель: {{user.get_goal_display}}</p>
+    </div>
+{% endblock %}
